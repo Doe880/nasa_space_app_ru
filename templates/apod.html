@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Картинка дня — NASA{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center;">Астрономическая картинка дня</h2>
+
+<form class="date-form" method="get" action="/apod">
+    <input type="date" name="date" value="{{ selected_date }}">
+    <input type="hidden" name="lang" value="{{ lang }}">
+    <button type="submit">Показать</button>
+</form>
+
+{% if apod %}
+    <div class="lang-switch">
+        <span>Язык описания:</span>
+        <a class="lang-link {% if lang == 'ru' %}active{% endif %}"
+           href="/apod?date={{ selected_date }}&lang=ru">RU</a>
+        <a class="lang-link {% if lang == 'en' %}active{% endif %}"
+           href="/apod?date={{ selected_date }}&lang=en">EN</a>
+    </div>
+{% endif %}
+
+{% if error %}
+    <div class="error-box">{{ error }}</div>
+{% elif apod %}
+    {% if translation_error %}
+        <div class="error-box" style="margin-bottom: 20px;">
+            Не удалось перевести текст ({{ translation_error }}). Показан оригинал на английском.
+        </div>
+    {% endif %}
+
+    <div class="apod-card">
+        <div class="date">{{ apod.date }}</div>
+        <h3>{{ apod.title_display }}</h3>
+
+        {% if apod.media_type == "image" %}
+            <img src="{{ apod.hdurl or apod.url }}" alt="{{ apod.title_display }}">
+        {% elif apod.media_type == "video" %}
+            <!-- Некоторые "картинки дня" на самом деле являются видео -->
+            <iframe src="{{ apod.url }}" style="width:100%; height:480px; border-radius:12px; border:none;" allowfullscreen></iframe>
+        {% endif %}
+
+        <p class="explanation">{{ apod.explanation_display }}</p>
+
+        {% if apod.copyright %}
+            <p class="explanation">© {{ apod.copyright }}</p>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

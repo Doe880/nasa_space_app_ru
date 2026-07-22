@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}NASA Space Explorer{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h2>Исследуй космос вместе с NASA</h2>
+    <p>
+        Смотри астрономическую картинку дня и снимки Луны,
+        получаемые напрямую из открытых API NASA.
+    </p>
+    <div class="cards">
+        <a class="card-link" href="/apod">
+            <h3>🌌 Картинка дня</h3>
+            <p>Каждый день NASA публикует новое фото космоса с описанием от астрономов.</p>
+        </a>
+        <a class="card-link" href="/moon">
+            <h3>🌕 Снимки Луны</h3>
+            <p>Галерея фотографий Луны из архива NASA Image and Video Library.</p>
+        </a>
+    </div>
+</section>
+{% endblock %}
